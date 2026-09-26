@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SentinelWell AI — Executive Summary Brief</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @top-left {
+        content: "SMART INDIA HACKATHON 2026 · PROBLEM STATEMENT ID: 26186";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8px;
+        font-weight: 700;
+        color: #475569;
+        letter-spacing: 0.8px;
+      }
+      @top-right {
+        content: "MINISTRY OF HOME AFFAIRS / CRPF";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8px;
+        font-weight: 700;
+        color: #0284c7;
+        letter-spacing: 0.8px;
+      }
+      @bottom-left {
+        content: "DEVELOPED BY MANIT BHOPAL";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8px;
+        font-weight: 600;
+        color: #94a3b8;
+      }
+      @bottom-right {
+        content: "PAGE " counter(page) " OF " counter(pages);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 8px;
+        font-weight: 700;
+        color: #475569;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      font-size: 11px;
+      line-height: 1.5;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .doc-header {
+      border-bottom: 2px solid #0f172a;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .doc-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #0a192f;
+      letter-spacing: -0.3px;
+      line-height: 1.15;
+    }
+
+    .doc-subtitle {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #0284c7;
+      margin-top: 4px;
+      letter-spacing: 0.2px;
+    }
+
+    .doc-meta {
+      text-align: right;
+      font-size: 9.5px;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    .meta-tag {
+      display: inline-block;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #0f172a;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 4px;
+      margin-top: 14px;
+      margin-bottom: 8px;
+    }
+
+    p { margin: 0 0 8px 0; text-align: justify; }
+
+    .highlight-banner {
+      background: #f8fafc;
+      border-left: 3.5px solid #0284c7;
+      padding: 8px 12px;
+      margin: 10px 0;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .highlight-banner strong { color: #0369a1; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .card-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 3px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      font-size: 10px;
+    }
+
+    th {
+      background: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+      text-align: left;
+      padding: 6px 8px;
+      border: 1px solid #0f172a;
+      letter-spacing: 0.3px;
+    }
+
+    td {
+      padding: 5px 8px;
+      border: 1px solid #cbd5e1;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td { background: #f8fafc; }
+
+    .kpi-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .kpi-card {
+      flex: 1;
+      background: #0f172a;
+      color: #ffffff;
+      border-radius: 6px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    .kpi-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: #38bdf8;
+    }
+
+    .kpi-label {
+      font-size: 8.5px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    .team-table td { padding: 4px 8px; }
+  </style>
+</head>
+<body>
+
+  <!-- DOCUMENT HEADER -->
+  <div class="doc-header">
+    <div>
+      <div class="doc-title">SENTINELWELL AI</div>
+      <div class="doc-subtitle">Predictive Personnel Stress & Welfare Monitoring System for Uniformed Forces</div>
+    </div>
+    <div class="doc-meta">
+      <span class="meta-tag">SIH 2026 · PS ID: 26186</span><br>
+      <strong>Ministry of Home Affairs (MHA) / CRPF</strong><br>
+      Maulana Azad National Institute of Technology (MANIT), Bhopal
+    </div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY HOOK -->
+  <div class="highlight-banner">
+    <strong>OPERATIONAL MANDATE:</strong> Transform workforce mental health and fatigue management across CAPFs, Armed Forces, and Police from a <em>reactive crisis-response mechanism</em> to an <em>automated, explainable, and proactive welfare framework</em>—without psychiatric diagnostic labeling or career penalties.
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <div class="kpi-value">14–21 Days</div>
+      <div class="kpi-label">Early Detection Window</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">&lt; 85 ms</div>
+      <div class="kpi-label">Dual-Model Inference Latency</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">100% XAI</div>
+      <div class="kpi-label">SHAP Root-Cause Attribution</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-value">Zero Stigma</div>
+      <div class="kpi-label">Anonymized Commander View</div>
+    </div>
+  </div>
+
+  <h2>1. Operational Problem Statement & Deficiencies</h2>
+  <p>
+    Personnel serving in Central Armed Police Forces (CRPF, BSF, CISF, ITBP, SSB), the Armed Forces, and State Police formations routinely operate in hazardous environments involving prolonged remote deployments, irregular circadian rhythms, frequent night watches, and family separation. Today's welfare frameworks suffer from three severe limitations:
+  </p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Latency in Identification</div>
+      Stress is observed manually only after operational breakdown, behavioral decline, or critical incidents occur.
+    </div>
+    <div class="card">
+      <div class="card-title">Career Stigmatization & Fear</div>
+      Troops hesitate to report psychological strain due to fears of peer judgment, unfitness categorization, or adverse postings.
+    </div>
+  </div>
+
+  <h2>2. The SentinelWell Technological Approach</h2>
+  <p>
+    SentinelWell AI introduces an indigenous intelligence pipeline fusing objective duty roster telemetry with voluntary, low-friction self-check-ins:
+  </p>
+  <ul>
+    <li><strong>Dual-Model Machine Learning Engine:</strong> Couples an unsupervised <em>Isolation Forest</em> (detecting abrupt schedule anomalies) with a <em>LightGBM Gradient Boosted Classifier</em> (classifying risk across <code>LOW</code>, <code>MODERATE</code>, <code>HIGH</code>, and <code>CRITICAL</code> bands).</li>
+    <li><strong>Explainable AI via SHAP Game Theory:</strong> Eliminates algorithmic black-box opacity by extracting exact Shapley values to pinpoint the top three primary trigger stressors (e.g., <em>14 consecutive duty days</em>, <em>8 night shifts in 30 days</em>, <em>&lt; 5h sleep</em>).</li>
+    <li><strong>Support-Oriented Action Hub:</strong> Replaces punitive measures with proactive organizational solutions: mandatory 48-hour rest cycles, roster rotations, accelerated leave coordination, and voluntary confidential counseling.</li>
+  </ul>
+
+  <h2>3. Strict Role-Based Air-Gapping & Privacy Governance</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 22%;">Portal Level</th>
+        <th style="width: 48%;">Operational Role & Access Boundaries</th>
+        <th style="width: 30%;">Privacy & Security Controls</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Personnel Portal</strong><br><code>(ID: P-1024)</code></td>
+        <td>Voluntary sub-minute check-in (Stress, Sleep, Energy, Workload sliders), 6-month historical self-trajectory, and confidential direct welfare requests.</td>
+        <td>Granular opt-in/opt-out toggles for all wellness inputs. Biometrics strictly disabled by default.</td>
+      </tr>
+      <tr>
+        <td><strong>Welfare Officer</strong><br><code>(ID: WO-208)</code></td>
+        <td>Prioritized triage command center (165+ personnel), 0–100 risk radar, SHAP trigger breakdown, and intervention logging.</td>
+        <td>Strictly confidential one-on-one profiles air-gapped from administrative rosters.</td>
+      </tr>
+      <tr>
+        <td><strong>Commander Overview</strong><br><code>(ID: CO-014)</code></td>
+        <td>Battalion readiness heatmaps, unit-by-unit fatigue curves, continuous deployment distribution, and leave utilization trends.</td>
+        <td><strong>Strictly Anonymized:</strong> Zero access to individual medical or personal identities.</td>
+      </tr>
+      <tr>
+        <td><strong>Security Admin</strong><br><code>(ID: AD-001)</code></td>
+        <td>System provisioning, real-time stress anomaly simulation engine, and immutable security audit trails.</td>
+        <td>Every access query is cryptographically logged with timestamps and user roles.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>4. Engineering Stack & Cloud Infrastructure</h2>
+  <p>
+    Engineered with production-grade microservices: <strong>React 19 + TypeScript + TanStack Router</strong> on edge nodes, <strong>Node.js + Express API</strong> gateway with Prisma ORM, <strong>FastAPI + Python 3.11</strong> for model inference, and <strong>Aiven Cloud MySQL</strong> over enforced TLS/SSL encryption with automated failover.
+  </p>
+
+  <h2>5. Project Team — MANIT Bhopal</h2>
+  <table class="team-table">
+    <thead>
+      <tr>
+        <th>Team Member</th>
+        <th>Designation & Core Responsibilities</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Puru Yadav</strong></td>
+        <td>Team Leader · AI / ML & Predictive Analytics Lead</td>
+      </tr>
+      <tr>
+        <td><strong>Nishant Pastor</strong></td>
+        <td>Frontend Architecture & UI/UX Specialist</td>
+      </tr>
+      <tr>
+        <td><strong>Raghav Jhalani</strong></td>
+        <td>Data Engineering & Pipeline Architecture</td>
+      </tr>
+      <tr>
+        <td><strong>HarshVardhan Khare</strong></td>
+        <td>Model Optimization & Machine Learning Benchmarking</td>
+      </tr>
+      <tr>
+        <td><strong>Aarti Misra</strong></td>
+        <td>Quality Assurance & Defense Domain Research</td>
+      </tr>
+      <tr>
+        <td><strong>Sarthak Mittal</strong></td>
+        <td>Backend Architecture & Cloud Deployment</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>

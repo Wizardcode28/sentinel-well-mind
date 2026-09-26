@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SentinelWell AI — Defense Technical Specification & Architecture Whitepaper</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 16mm 14mm 16mm 14mm;
+      @top-left {
+        content: "SIH 2026 · PROBLEM STATEMENT ID: 26186";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 7.5px;
+        font-weight: 700;
+        color: #475569;
+        letter-spacing: 0.8px;
+      }
+      @top-right {
+        content: "TECHNICAL SPECIFICATION & ARCHITECTURE WHITEPAPER";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 7.5px;
+        font-weight: 700;
+        color: #0284c7;
+        letter-spacing: 0.8px;
+      }
+      @bottom-left {
+        content: "MINISTRY OF HOME AFFAIRS (MHA) / CRPF · MANIT BHOPAL";
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 7.5px;
+        font-weight: 600;
+        color: #94a3b8;
+      }
+      @bottom-right {
+        content: "PAGE " counter(page) " OF " counter(pages);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 7.5px;
+        font-weight: 700;
+        color: #475569;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #1e293b;
+      font-size: 9.5px;
+      line-height: 1.45;
+      background: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .page-break { 
+      page-break-before: always !important; 
+      break-before: page !important; 
+      display: block; 
+      height: 0;
+      margin: 0;
+      padding: 0;
+    }
+
+    .doc-header {
+      border-bottom: 2.5px solid #0f172a;
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .doc-title {
+      font-size: 19px;
+      font-weight: 800;
+      color: #0a192f;
+      letter-spacing: -0.3px;
+    }
+
+    .doc-subtitle {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #0284c7;
+      margin-top: 2px;
+    }
+
+    .doc-meta {
+      text-align: right;
+      font-size: 8.5px;
+      color: #475569;
+    }
+
+    .meta-tag {
+      display: inline-block;
+      background: #0f172a;
+      color: #38bdf8;
+      font-size: 9px;
+      font-weight: 700;
+      padding: 2.5px 7px;
+      border-radius: 4px;
+      margin-bottom: 3px;
+    }
+
+    h1, h2, h3, h4 { color: #0f172a; font-weight: 800; }
+    h2 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 3px;
+      margin-top: 14px;
+      margin-bottom: 6px;
+    }
+
+    h3 {
+      font-size: 10.5px;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      color: #0369a1;
+    }
+
+    h4 {
+      font-size: 9.5px;
+      margin-top: 8px;
+      margin-bottom: 3px;
+      color: #0f172a;
+    }
+
+    p { margin: 0 0 6px 0; text-align: justify; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 10px 0;
+      font-size: 9px;
+    }
+
+    th {
+      background: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+      text-align: left;
+      padding: 5px 7px;
+      border: 1px solid #0f172a;
+    }
+
+    td {
+      padding: 4px 7px;
+      border: 1px solid #cbd5e1;
+      vertical-align: top;
+    }
+
+    tr:nth-child(even) td { background: #f8fafc; }
+
+    .math-block {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 3px solid #0284c7;
+      padding: 6px 10px;
+      margin: 6px 0;
+      font-family: "Cambria Math", "Times New Roman", serif;
+      font-size: 10.5px;
+      color: #0f172a;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, "Cascadia Code", "Courier New", monospace;
+      font-size: 8.5px;
+      line-height: 1.45;
+      margin: 8px 0;
+      white-space: pre;
+      overflow-x: auto;
+      border: 1px solid #1e293b;
+    }
+
+    /* FULL WIDTH FIGURE CONTAINER */
+    .figure-container {
+      margin: 8px 0 10px 0;
+      width: 100%;
+      text-align: center;
+    }
+
+    .figure-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .figure-caption {
+      font-size: 8px;
+      color: #64748b;
+      margin-top: 3px;
+      font-style: italic;
+      text-align: center;
+    }
+
+    .feature-list {
+      margin: 4px 0 8px 0;
+      padding-left: 16px;
+    }
+
+    .feature-list li {
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== PAGE 1: HEADER & SYSTEM TOPOLOGY ==================== -->
+  <div class="doc-header">
+    <div>
+      <div class="doc-title">SENTINELWELL AI</div>
+      <div class="doc-subtitle">Defense Technical Specification & Architecture Whitepaper</div>
+    </div>
+    <div class="doc-meta">
+      <span class="meta-tag">SIH 2026 · PS ID: 26186</span><br>
+      <strong>Ministry of Home Affairs / CRPF</strong><br>
+      Engineering Team: MANIT Bhopal
+    </div>
+  </div>
+
+  <h2>1. System Overview & Problem Statement Context</h2>
+  <p>
+    Uniformed personnel serving in the <strong>Central Armed Police Forces (CRPF, BSF, CISF, ITBP, SSB)</strong>, the <strong>Indian Armed Forces</strong>, and <strong>State Police formations</strong> face prolonged operational conditions—hazardous terrain, remote postings, circadian disruptions, and intense operational tempo. Conventional stress identification across security forces remains fundamentally reactive, relying on lagging peer observation after critical psychological burnout or disciplinary incidents manifest.
+  </p>
+  <p>
+    <strong>SentinelWell AI</strong> transforms this paradigm from <strong>reactive intervention to proactive prevention</strong>. By integrating non-invasive, objective administrative duty records (consecutive duty days, night shift cycles, deployment duration, leave denial patterns) with voluntary self-reported wellness telemetry, the platform computes a continuous 4-band <strong>Welfare Risk Index</strong> backed by <strong>Explainable AI (TreeExplainer SHAP)</strong>. It empowers welfare officers to initiate timely rest cycles and counseling while strictly safeguarding personnel confidentiality and ensuring zero punitive surveillance.
+  </p>
+
+  <h2>2. Distributed System Topology & Architecture</h2>
+  <p>
+    The system utilizes a 3-tier decoupled microservices topology engineered for high resilience, zero-leakage RBAC boundaries, and sub-15ms ML inference:
+  </p>
+
+  <div style="background: #0f172a; border: 1.5px solid #1e293b; border-radius: 6px; padding: 12px; margin: 8px 0;">
+    <div style="display: flex; justify-content: center; margin-bottom: 6px;">
+      <div style="background: #1e293b; border: 1.5px solid #38bdf8; border-radius: 5px; padding: 7px 16px; text-align: center; color: #ffffff; width: 85%;">
+        <span style="color: #38bdf8; font-weight: 800; font-size: 10px; letter-spacing: 0.5px;">CLIENT TIER (MODERN DEFENSE WEB APP)</span><br>
+        <span style="font-size: 8.5px; color: #e2e8f0;">Personnel Portal (P-1024) &nbsp;•&nbsp; Welfare Command Center (WO-208) &nbsp;•&nbsp; Commander Overview (CO-014) &nbsp;•&nbsp; Security Admin</span>
+      </div>
+    </div>
+    <div style="text-align: center; color: #38bdf8; font-size: 10px; margin: 3px 0;">▼ &nbsp; <span style="font-size: 8px; color: #94a3b8; font-family: monospace;">HTTPS / TLS 1.3 · Signed Bearer JWT · Role-Based Air-Gapping</span></div>
+    <div style="display: flex; justify-content: center; margin-bottom: 6px;">
+      <div style="background: #1e293b; border: 1.5px solid #0284c7; border-radius: 5px; padding: 7px 16px; text-align: center; color: #ffffff; width: 85%;">
+        <span style="color: #38bdf8; font-weight: 800; font-size: 10px; letter-spacing: 0.5px;">API GATEWAY & SECURE BUSINESS LOGIC TIER</span><br>
+        <span style="font-size: 8.5px; color: #e2e8f0;">Node.js · Express · Prisma ORM · RBAC Route Guards (`/personnel`, `/wellness`, `/risk`, `/alerts`)</span>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; align-items: stretch; gap: 12px; margin-top: 6px;">
+      <div style="flex: 1; background: #1e293b; border: 1.5px solid #f97316; border-radius: 5px; padding: 8px 12px; color: #ffffff; text-align: center;">
+        <span style="color: #fb923c; font-weight: 800; font-size: 9.5px; letter-spacing: 0.5px;">PERSISTENCE DATA TIER</span><br>
+        <span style="font-size: 8px; color: #94a3b8; font-family: monospace;">Enforced TLS 1.3 / SSL</span><br>
+        <span style="font-size: 8.5px; color: #cbd5e1; font-weight: 600;">Aiven Cloud MySQL Cluster</span><br>
+        <span style="font-size: 7.5px; color: #94a3b8;">Users, Units, Personnel, Assessments, Alerts, Interventions, Immutable Audit Logs</span>
+      </div>
+      <div style="flex: 1.3; background: #1e293b; border: 1.5px solid #10b981; border-radius: 5px; padding: 8px 12px; color: #ffffff; text-align: left;">
+        <span style="color: #34d399; font-weight: 800; font-size: 9.5px; letter-spacing: 0.5px;">AI / ML PREDICTIVE MICROSERVICE</span><br>
+        <span style="font-size: 8px; color: #94a3b8; font-family: monospace;">FastAPI / Python 3.11 · Sub-15ms Inference</span><br>
+        <div style="font-size: 8px; color: #cbd5e1; line-height: 1.4; margin-top: 3px;">
+          • <strong>Feature Engineering:</strong> SDI (Sleep Deprivation) & Burnout Velocity<br>
+          • <strong>Isolation Forest:</strong> Behavioral duty anomaly score <em>s<sub>iso</sub></em><br>
+          • <strong>LightGBM Classifier:</strong> 4-class softmax probability vector [P<sub>Low</sub>, P<sub>Mod</sub>, P<sub>High</sub>, P<sub>Crit</sub>]<br>
+          • <strong>TreeExplainer SHAP:</strong> Top 3 primary stressor triggers (|ϕ<sub>i</sub>|)
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="figure-caption">Figure 1A: Comprehensive System Topology & Microservices Component Architecture.</div>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 2: INFERENCE SEQUENCE & FEATURE SPACE ==================== -->
+  <h2 style="margin-top: 0;">2.1 End-to-End Data & Inference Flow</h2>
+  <p>
+    The sequence below models the operational path from voluntary self check-in submission to real-time ML risk scoring and welfare officer triage:
+  </p>
+
+  <div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 6px; padding: 12px; margin: 8px 0;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 8.5px; margin: 0;">
+      <thead>
+        <tr style="background: #0f172a; color: #ffffff;">
+          <th style="padding: 5px 8px; width: 6%;">Step</th>
+          <th style="padding: 5px 8px; width: 22%;">Origin / Actor</th>
+          <th style="padding: 5px 8px; width: 32%;">Target / Interface</th>
+          <th style="padding: 5px 8px; width: 40%;">Operational Action & Payload</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>01</strong></td>
+          <td>Personnel (Ground Officer)</td>
+          <td>Frontend Web Portal</td>
+          <td>Submits voluntary daily check-in (Stress: 1–10, Sleep: 1–5, Energy: 1–5, Workload: 1–5).</td>
+        </tr>
+        <tr>
+          <td><strong>02</strong></td>
+          <td>Frontend Web Portal</td>
+          <td>Express API Server</td>
+          <td><code>POST /api/wellness/assessment</code> with JWT authorization token.</td>
+        </tr>
+        <tr>
+          <td><strong>03</strong></td>
+          <td>Express API Server</td>
+          <td>Aiven Cloud MySQL</td>
+          <td>Persists <code>WellnessAssessment</code> record and queries 30-day duty history.</td>
+        </tr>
+        <tr>
+          <td><strong>04</strong></td>
+          <td>Express API Server</td>
+          <td>FastAPI ML Service</td>
+          <td>Dispatches feature vector: <code>[dutyDays, nightShifts, deployDays, leaveRej, dutyHrs, sleepHrs, fatigue]</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>05</strong></td>
+          <td>FastAPI ML Engine</td>
+          <td>Internal Feature Pipeline</td>
+          <td>Computes derived fatigue variables: <strong>SDI</strong> (Sleep Deprivation Index) & <strong>Burnout Velocity</strong>.</td>
+        </tr>
+        <tr>
+          <td><strong>06</strong></td>
+          <td>FastAPI ML Engine</td>
+          <td>Dual-Model Inference</td>
+          <td>Executes <strong>Isolation Forest</strong> for anomaly scoring and <strong>LightGBM</strong> for multi-class risk probabilities.</td>
+        </tr>
+        <tr>
+          <td><strong>07</strong></td>
+          <td>FastAPI ML Engine</td>
+          <td>SHAP TreeExplainer</td>
+          <td>Extracts exact Shapley attributions |ϕ<sub>i</sub>| to identify top 3 primary trigger stressors.</td>
+        </tr>
+        <tr>
+          <td><strong>08</strong></td>
+          <td>FastAPI ML Engine</td>
+          <td>Express API Server</td>
+          <td>Returns continuous 0–100 score, risk category (`HIGH`), and natural-language primary triggers.</td>
+        </tr>
+        <tr>
+          <td><strong>09</strong></td>
+          <td>Express API Server</td>
+          <td>Aiven Cloud MySQL</td>
+          <td>Stores <code>RiskAssessment</code> entry. If score $\ge 61$, automatically creates a live <code>Alert</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>10</strong></td>
+          <td>Express API Server</td>
+          <td>Frontend Web Portal</td>
+          <td>Pushes confirmed assessment to user with updated personal 6-month wellness trajectory.</td>
+        </tr>
+        <tr>
+          <td><strong>11</strong></td>
+          <td>Welfare Officer (WO-208)</td>
+          <td>Welfare Command Center</td>
+          <td>Detects alert in triage queue; inspects continuous risk gauge (e.g. 64 High) and SHAP factor bars.</td>
+        </tr>
+        <tr>
+          <td><strong>12</strong></td>
+          <td>Welfare Officer (WO-208)</td>
+          <td>Express API Server</td>
+          <td>Issues proactive welfare intervention (e.g., 48-hr Rest Cycle); logged into immutable audit register.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="figure-caption">Figure 1B: Structured End-to-End Operational Inference and Triage Sequence.</div>
+
+  <h2>3. Mathematical Formulation & Feature Space</h2>
+  <p>
+    The prediction engine ingests 8 primary attributes categorized into administrative duty parameters and voluntary wellness telemetry:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20%;">Feature</th>
+        <th style="width: 10%;">Type</th>
+        <th style="width: 18%;">Domain</th>
+        <th style="width: 52%;">Operational Definition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>x₁: consecutive_duty_days</strong></td>
+        <td>Float</td>
+        <td>[0, ∞)</td>
+        <td>Continuous duty days logged without a mandatory 24-hr rest window.</td>
+      </tr>
+      <tr>
+        <td><strong>x₂: night_shifts_last_30d</strong></td>
+        <td>Float</td>
+        <td>[0, 30]</td>
+        <td>Cumulative night watch duties logged between 2200 and 0600 hrs in past 30 days.</td>
+      </tr>
+      <tr>
+        <td><strong>x₃: deployment_duration_days</strong></td>
+        <td>Float</td>
+        <td>[0, ∞)</td>
+        <td>Cumulative active days deployed at forward or high-altitude outposts.</td>
+      </tr>
+      <tr>
+        <td><strong>x₄: leave_rejected_count</strong></td>
+        <td>Float</td>
+        <td>[0, ∞)</td>
+        <td>Number of formal leave requests unapproved or deferred in past 12 months.</td>
+      </tr>
+      <tr>
+        <td><strong>x₅: transfer_frequency_2y</strong></td>
+        <td>Float</td>
+        <td>[0, ∞)</td>
+        <td>Battalion or company reassignment frequency across past 24 months.</td>
+      </tr>
+      <tr>
+        <td><strong>x₆: duty_hours_weekly</strong></td>
+        <td>Float</td>
+        <td>[0, 168]</td>
+        <td>Aggregated duty hours on active roster during a 7-day period.</td>
+      </tr>
+      <tr>
+        <td><strong>x₇: avg_sleep_hours</strong></td>
+        <td>Float</td>
+        <td>(0, 24]</td>
+        <td>Voluntary, self-reported average sleep duration per 24-hour cycle.</td>
+      </tr>
+      <tr>
+        <td><strong>x₈: self_reported_fatigue</strong></td>
+        <td>Integer</td>
+        <td>[1, 5]</td>
+        <td>Subjective exhaustion rating (1 = Fully Rested, 5 = Severe Exhaustion).</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Derived Fatigue Variables</h3>
+  <p>To model non-linear physiological strain, two derived variables are calculated prior to model scoring:</p>
+  <div class="math-block">
+    <strong>Sleep Deprivation Index (SDI):</strong>&nbsp;&nbsp; SDI = x₁ / x₇ = (consecutive_duty_days) / (avg_sleep_hours)<br>
+    <strong>Burnout Velocity (BV):</strong>&nbsp;&nbsp; BV = x₆ × x₈ = (duty_hours_weekly) × (self_reported_fatigue)
+  </div>
+
+  <!-- ==================== MACHINE LEARNING & XAI PIPELINE ==================== -->
+  <h2>4. Dual-Model Machine Learning Engine & SHAP Explainability</h2>
+  <p>
+    The inference engine pairs unsupervised behavioral anomaly detection with supervised multi-class gradient boosting:
+  </p>
+
+  <h3>4.1 Anomaly Scoring via Isolation Forest</h3>
+  <p>
+    An Isolation Forest model trained on normative duty scheduling profiles evaluates the augmented feature vector. It computes the anomaly score:
+  </p>
+  <div class="math-block">
+    s<sub>iso</sub> = -Score<sub>iso</sub>([x₁, x₂, ..., x₈, SDI, BV]) &nbsp;&nbsp;∈ [-0.5, 0.5]
+  </div>
+
+  <h3>4.2 Multi-Class Risk Classification (LightGBM)</h3>
+  <p>
+    The LightGBM classifier evaluates the 11-dimensional vector <code>X = [x₁, ..., x₈, SDI, BV, s<sub>iso</sub>]</code> to generate a calibrated probability distribution across 4 welfare risk tiers:
+  </p>
+  <div class="math-block">
+    P = [p<sub>Low</sub>, p<sub>Mod</sub>, p<sub>High</sub>, p<sub>Crit</sub>] &nbsp;&nbsp;where &nbsp; ∑<sub>k=0</sub><sup>3</sup> p<sub>k</sub> = 1
+  </div>
+
+  <h3>4.3 Continuous 0–100 Welfare Risk Formulation</h3>
+  <p>
+    To eliminate discrete step-function jumps, a continuous risk index <code>S</code> is formulated via inner product with risk band weights:
+  </p>
+  <div class="math-block">
+    S = round( ∑<sub>k=0</sub><sup>3</sup> p<sub>k</sub> × w<sub>k</sub> ) &nbsp;&nbsp;with centroid vector &nbsp; W = [0, 33.33, 66.67, 100.00]
+  </div>
+
+  <h3>4.4 Explainable AI (XAI) via TreeExplainer SHAP</h3>
+  <p>
+    For every generated score, exact Shapley values are calculated to identify the top 3 contributing stressors:
+  </p>
+  <div class="math-block">
+    ϕ<sub>i</sub>(ŷ) = ∑<sub>S ⊆ F\{i}</sub> [ |S|!(|F| - |S| - 1)! / |F|! ] × [ f(S ∪ {i}) - f(S) ]<br>
+    <strong>Primary Triggers:</strong> Top 3 features ranked by absolute attribution |ϕ<sub>i</sub>| (e.g., <em>Deployment Duration</em>, <em>Night Shifts</em>, <em>Duty Hours</em>)
+  </div>
+
+  <h2>5. Comprehensive Module Specifications & UI Architecture</h2>
+
+  <h3>Module 1: Welfare Officer Command Center & Real-Time Triage</h3>
+  <p>
+    The operational command center presents high-level force distributions paired with an actionable triage roster.
+  </p>
+
+  <div class="figure-container">
+    <img src="images/02-welfare-dashboard.png" alt="Welfare Officer Command Center KPIs">
+    <div class="figure-caption">Figure 1: Welfare Officer Command Center displaying macro distributions (165 Monitored, 90 High Risk, 30 Critical) and 6-month historical risk trend.</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 3: MODULE 1 (BOTTOM) & MODULE 2 ==================== -->
+  <p>
+    Below the macro KPI summary, the Command Center displays comparative unit overview cards alongside the High-Risk Personnel Master Table:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/02-welfare-dashboard-bottom.png" alt="High Risk Personnel Roster">
+    <div class="figure-caption">Figure 2: High-Risk Personnel Master Triage Roster displaying Personnel IDs (P-1133, P-1031, P-1078, P-1024), continuous risk scores, trajectories, and direct triage links.</div>
+  </div>
+
+  <h3>Module 2: Personnel Risk Radar & Explainable AI (XAI)</h3>
+  <p>
+    Provides deep, transparent insight into individual risk drivers without psychiatric labeling. The upper viewport presents the continuous risk gauge and relative SHAP factor attribution bars:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/03-welfare-personnel-radar.png" alt="Personnel Risk Radar Top">
+    <div class="figure-caption">Figure 3: Personnel Risk Radar (P-1024) showing continuous 0–100 gauge (64 High) and normalized SHAP factor attribution (Reported Workload 100%, Night Shifts 88%, Duty Hours 85%).</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 4: MODULE 2 (BOTTOM) & MODULE 3 ==================== -->
+  <p>
+    The lower section of the Risk Radar tracks 6-month longitudinal telemetry trends and provides dedicated human-in-the-loop triage action triggers:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/03-welfare-personnel-radar-bottom.png" alt="Personnel Detail Trends and Actions">
+    <div class="figure-caption">Figure 4: Longitudinal 6-Month Telemetry Trends (Stress, Sleep, Workload, Duty Hours) alongside the Recommended Welfare Actions triage hub.</div>
+  </div>
+
+  <h3>Module 3: Proactive Welfare Interventions & Live Alert Stream</h3>
+  <p>
+    Enables authorized caseworkers to track intervention lifecycles and monitor automated stress alerts in real time:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/04-welfare-interventions.png" alt="Welfare Interventions Tracking">
+    <div class="figure-caption">Figure 5: Structured Welfare Interventions Management Table tracking personnel ID, intervention type, assigned officer, date, status, and confidential notes.</div>
+  </div>
+
+  <div class="figure-container">
+    <img src="images/05-welfare-alerts.png" alt="Live Welfare Alert Stream">
+    <div class="figure-caption">Figure 6: Live Welfare Alert Stream highlighting automated alert detections such as Excessive Workload and Increasing Fatigue Trend.</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 5: MODULE 4 (COMMANDER OVERVIEW & ANALYTICS) ==================== -->
+  <h3>Module 4: Commander Battalion Overview & Operational Readiness</h3>
+  <p>
+    Engineered for senior leadership and battalion commanders to assess operational readiness while strictly air-gapping individual personal records:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/06-commander-dashboard.png" alt="Commander Battalion Overview Top">
+    <div class="figure-caption">Figure 7: Commander Battalion Overview displaying force readiness, unit wellness index, and comparative monthly duty workload curves.</div>
+  </div>
+
+  <div class="figure-container">
+    <img src="images/06-commander-dashboard-bottom.png" alt="Commander Battalion Overview Bottom">
+    <div class="figure-caption">Figure 8: Battalion Fatigue Indicators (recorded night shifts mapped against monthly duty hours) and automated operational recommendations.</div>
+  </div>
+
+  <div class="figure-container">
+    <img src="images/07-commander-analytics.png" alt="Commander Longitudinal Analytics">
+    <div class="figure-caption">Figure 9: Commander Unit Analytics detailing deployment duration distributions (>90–150 days) versus average leave days taken across battalions.</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 6: MODULE 5 & MODULE 6 ==================== -->
+  <h3>Module 5: Personnel Self-Check-In, Self-Trends & Support Portal</h3>
+  <p>
+    A voluntary, confidential mobile-responsive portal empowering jawans and officers with self-monitoring tools:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/08-personnel-dashboard.png" alt="Personnel Dashboard Overview">
+    <div class="figure-caption">Figure 10: Personnel Wellness Dashboard featuring rapid, sub-minute daily check-in sliders (Stress, Sleep, Energy, Workload).</div>
+  </div>
+
+  <div class="figure-container">
+    <img src="images/08-personnel-dashboard-bottom.png" alt="Personnel Dashboard History">
+    <div class="figure-caption">Figure 11: Recent check-in history, historical assessments roster, and direct confidential action cards.</div>
+  </div>
+
+  <h3>Module 6: Privacy, Governance & Consent Controls</h3>
+  <p>
+    Puts the individual personnel in full control of their data, establishing organizational trust:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/10-personnel-privacy.png" alt="Privacy and Consent Settings">
+    <div class="figure-caption">Figure 12: Dedicated Privacy & Data Protection Center with granular toggles for self-assessments, optional wellness data, and zero-biometric default.</div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 7: MODULE 7 & AUDIT REGISTRY ==================== -->
+  <h3>Module 7: System Administration, Stress Simulator & Security Audit Trails</h3>
+  <p>
+    Enterprise-level governance tools and live interactive simulation for evaluation and demonstration:
+  </p>
+
+  <div class="figure-container">
+    <img src="images/11-admin-simulation.png" alt="Admin Stress Simulator">
+    <div class="figure-caption">Figure 13: Interactive Stress Simulator demonstrating end-to-end alert propagation upon parameter injection (increasing workload, sleep deficit, night shifts).</div>
+  </div>
+
+  <div class="figure-container">
+    <img src="images/12-admin-audit-logs.png" alt="Security Audit Logs">
+    <div class="figure-caption">Figure 14: Immutable Security Audit Register displaying timestamped user sessions, resource targets, and authorization results.</div>
+  </div>
+
+  <h2>6. Security Architecture & Role-Based Access Control (RBAC)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 14%;">Method</th>
+        <th style="width: 32%;">API Endpoint</th>
+        <th style="width: 26%;">Authorized Roles</th>
+        <th style="width: 28%;">Function</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/auth/login</code></td>
+        <td>Public</td>
+        <td>Signs and returns JWT access + refresh tokens.</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/personnel</code></td>
+        <td>Welfare Officer, Admin</td>
+        <td>Fetches prioritized welfare triage queue.</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/personnel/:id</code></td>
+        <td>Welfare Officer, Admin</td>
+        <td>Retrieves individual risk radar & SHAP triggers.</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/wellness/assessment</code></td>
+        <td>Personnel</td>
+        <td>Records voluntary check-in; invokes ML engine.</td>
+      </tr>
+      <tr>
+        <td><code>GET</code></td>
+        <td><code>/api/analytics/command</code></td>
+        <td>Commander, Admin</td>
+        <td>Fetches anonymized unit readiness curves.</td>
+      </tr>
+      <tr>
+        <td><code>POST</code></td>
+        <td><code>/api/interventions</code></td>
+        <td>Welfare Officer</td>
+        <td>Logs mandatory rest cycle or roster adjustment.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>7. Product & Operational Roadmap</h2>
+  <p>
+    A phased deployment blueprint designed to transition SentinelWell from the SIH prototype to CAPF field formations:
+  </p>
+
+  <div style="display: flex; justify-content: space-between; gap: 10px; margin: 10px 0;">
+    <div style="flex: 1; background: #f8fafc; border: 1.5px solid #0284c7; border-radius: 6px; padding: 10px;">
+      <div style="background: #0284c7; color: #ffffff; font-weight: 700; font-size: 9px; padding: 3px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px;">PHASE 1: CURRENT SIH PROTOTYPE</div>
+      <ul style="margin: 0; padding-left: 14px; font-size: 8px; color: #334155; line-height: 1.4;">
+        <li>Multi-role operational dashboards (4 distinct tiers)</li>
+        <li>Dual-model ML (Isolation Forest + LightGBM)</li>
+        <li>TreeExplainer SHAP game-theoretic explainability</li>
+        <li>Aiven Cloud MySQL persistence with enforced TLS</li>
+        <li>Strict air-gapping and consent privacy center</li>
+      </ul>
+    </div>
+    <div style="flex: 1; background: #f8fafc; border: 1.5px solid #0284c7; border-radius: 6px; padding: 10px;">
+      <div style="background: #0f172a; color: #38bdf8; font-weight: 700; font-size: 9px; padding: 3px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px;">PHASE 2: EDGE & OFFLINE READINESS</div>
+      <ul style="margin: 0; padding-left: 14px; font-size: 8px; color: #334155; line-height: 1.4;">
+        <li>Progressive Web App (PWA) for remote field outposts</li>
+        <li>Local SQLite / IndexedDB intermittent sync</li>
+        <li>Automated HRMS / CAPF duty roster data connectors</li>
+        <li>Multi-lingual regional voice & vernacular check-ins</li>
+        <li>Offline forward outpost caching</li>
+      </ul>
+    </div>
+    <div style="flex: 1; background: #f8fafc; border: 1.5px solid #0284c7; border-radius: 6px; padding: 10px;">
+      <div style="background: #0f172a; color: #10b981; font-weight: 700; font-size: 9px; padding: 3px 6px; border-radius: 3px; display: inline-block; margin-bottom: 6px;">PHASE 3: FORCE-WIDE DEPLOYMENT</div>
+      <ul style="margin: 0; padding-left: 14px; font-size: 8px; color: #334155; line-height: 1.4;">
+        <li>Optional secure BLE wearable physiological integration</li>
+        <li>Federated machine learning across battalion clusters</li>
+        <li>End-to-end homomorphic encrypted model training</li>
+        <li>Empirical validation trials across CRPF formations</li>
+        <li>Central Command multi-battalion coordination view</li>
+      </ul>
+    </div>
+  </div>
+  <div class="figure-caption">Figure 15: Phased operational roadmap from SIH prototype to national defense deployment.</div>
+
+  <div class="page-break"></div>
+
+  <!-- ==================== PAGE 9: TEAM ATTRIBUTION & VERIFICATION ==================== -->
+  <h2>8. Engineering Verification Team — MANIT Bhopal</h2>
+  <p>
+    Developed and submitted for the <strong>Smart India Hackathon (SIH) 2026</strong> under Problem Statement ID <strong>26186</strong> (Ministry of Home Affairs / CRPF):
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 28%;">Team Member</th>
+        <th style="width: 72%;">Engineering Discipline & Core Responsibilities</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Puru Yadav</strong></td>
+        <td>Team Leader · AI / ML & Predictive Analytics Lead</td>
+      </tr>
+      <tr>
+        <td><strong>Nishant Pastor</strong></td>
+        <td>Frontend Architecture & UI/UX Specialist</td>
+      </tr>
+      <tr>
+        <td><strong>Raghav Jhalani</strong></td>
+        <td>Data Engineering & Pipeline Architecture</td>
+      </tr>
+      <tr>
+        <td><strong>HarshVardhan Khare</strong></td>
+        <td>Model Optimization & Machine Learning Benchmarking</td>
+      </tr>
+      <tr>
+        <td><strong>Aarti Misra</strong></td>
+        <td>Quality Assurance & Defense Domain Research</td>
+      </tr>
+      <tr>
+        <td><strong>Sarthak Mittal</strong></td>
+        <td>Backend Architecture & Cloud Deployment</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+  <div style="text-align: center; color: #64748b; font-size: 8.5px; border-top: 1px solid #cbd5e1; padding-top: 8px;">
+    <strong>SentinelWell AI</strong> · Proactive, Explainable & Privacy-Preserving Welfare Intelligence for Uniformed Forces · MANIT Bhopal
+  </div>
+
+</body>
+</html>
