@@ -82,17 +82,28 @@ function AuditLogs() {
                   <th className="px-4 py-3 font-medium">User</th>
                   <th className="px-4 py-3 font-medium">Action</th>
                   <th className="px-4 py-3 font-medium">Resource</th>
-                  <th className="px-4 py-3 font-medium">Timestamp</th>
+                  <th className="px-4 py-3 font-medium">Timestamp (IST)</th>
                   <th className="px-4 py-3 font-medium">Result</th>
                 </tr>
               </thead>
               <tbody>
-                {logs.map((l) => (
-                  <tr key={l.id} className="border-b border-border last:border-0 hover:bg-surface/70">
-                    <td className="px-4 py-3 font-medium">{l.user}</td>
-                    <td className="px-4 py-3">{l.action}</td>
-                    <td className="px-4 py-3 font-mono text-muted-foreground">{l.resource}</td>
-                    <td className="px-4 py-3 text-muted-foreground">{l.timestamp}</td>
+                {logs.map((l) => {
+                  const isIsoOrDate = l.timestamp && (l.timestamp.includes("-") || l.timestamp.includes("T"));
+                  const displayTime = isIsoOrDate
+                    ? new Date(l.timestamp).toLocaleTimeString("en-IN", {
+                        timeZone: "Asia/Kolkata",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : l.timestamp;
+
+                  return (
+                    <tr key={l.id} className="border-b border-border last:border-0 hover:bg-surface/70">
+                      <td className="px-4 py-3 font-medium">{l.user}</td>
+                      <td className="px-4 py-3">{l.action}</td>
+                      <td className="px-4 py-3 font-mono text-muted-foreground">{l.resource}</td>
+                      <td className="px-4 py-3 text-muted-foreground">{displayTime}</td>
+
                     <td className="px-4 py-3">
                       <span
                         className={cn(
@@ -106,8 +117,10 @@ function AuditLogs() {
                       </span>
                     </td>
                   </tr>
-                ))}
+                );
+              })}
               </tbody>
+
             </table>
           </div>
         )}

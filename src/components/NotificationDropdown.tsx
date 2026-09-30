@@ -51,13 +51,27 @@ export function NotificationDropdown({ extra = 0 }: { extra?: number }) {
               <p className="mt-1 text-[11px] text-muted-foreground">Just now</p>
             </li>
           ) : null}
-          {notifications.map((n) => (
-            <li key={n.id} className="border-b border-border px-4 py-3 last:border-0">
-              <p className="text-sm font-medium">{n.title}</p>
-              <p className="text-xs text-muted-foreground">{n.detail}</p>
-              <p className="mt-1 text-[11px] text-muted-foreground">{n.time}</p>
-            </li>
-          ))}
+          {notifications.map((n) => {
+            const isIsoOrDate = n.time && (n.time.includes("-") || n.time.includes("T"));
+            const displayTime = isIsoOrDate
+              ? new Date(n.time).toLocaleTimeString("en-IN", {
+                  timeZone: "Asia/Kolkata",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                }) + " IST"
+              : n.time.includes("IST")
+                ? n.time
+                : `${n.time} IST`;
+
+            return (
+              <li key={n.id} className="border-b border-border px-4 py-3 last:border-0">
+                <p className="text-sm font-medium">{n.title}</p>
+                <p className="text-xs text-muted-foreground">{n.detail}</p>
+                <p className="mt-1 text-[11px] text-muted-foreground">{displayTime}</p>
+              </li>
+            );
+          })}
+
           {count === 0 ? (
             <li className="px-4 py-6 text-center text-xs text-muted-foreground">
               No new notifications

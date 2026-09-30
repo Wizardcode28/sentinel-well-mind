@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Lock, LogOut, Menu, Radar, ShieldCheck, X } from "lucide-react";
+import { Clock, Lock, LogOut, Menu, Radar, ShieldCheck, X } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import { NotificationDropdown } from "@/components/NotificationDropdown";
 import { useSession } from "@/hooks/useSession";
@@ -27,8 +28,34 @@ export function AppLayout({ role, children }: { role: Role; children: ReactNode 
     setOpen(false);
   }, [pathname]);
 
+  const [istTime, setIstTime] = useState(() =>
+    new Date().toLocaleTimeString("en-IN", {
+      timeZone: "Asia/Kolkata",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    })
+  );
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIstTime(
+        new Date().toLocaleTimeString("en-IN", {
+          timeZone: "Asia/Kolkata",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+        })
+      );
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
   const user = getDemoUser(role);
   const items = NAV[role];
+
 
   if (sessionRole !== role) return null;
 
@@ -128,6 +155,13 @@ export function AppLayout({ role, children }: { role: Role; children: ReactNode 
               Confidential · Access logged
             </span>
           </div>
+
+          <div className="hidden items-center gap-1.5 rounded-full border border-border/80 bg-surface/60 px-3 py-1 text-xs text-muted-foreground md:flex">
+            <Clock className="size-3.5 text-primary" />
+            <span className="font-mono text-[11px] font-medium text-foreground">{istTime}</span>
+            <span className="text-[10px] text-muted-foreground font-semibold">IST</span>
+          </div>
+
           <div className="ml-auto flex items-center gap-2">
             <NotificationDropdown />
             <div className="flex items-center gap-2.5 rounded-full border border-border py-1 pl-1 pr-3">

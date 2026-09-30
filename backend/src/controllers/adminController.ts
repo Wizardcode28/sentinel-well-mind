@@ -53,7 +53,11 @@ export async function listAuditLogs(req: Request, res: Response, next: NextFunct
       user: l.userName,
       action: l.action,
       resource: l.resource,
-      timestamp: new Date(l.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: new Date(l.timestamp).toLocaleTimeString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       result: l.result,
     }));
 
